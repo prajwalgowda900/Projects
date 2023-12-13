@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Quiz App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    #quizContainer {
+      text-align: center;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    #question {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .answerBtn {
+      padding: 10px;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="quizContainer">
+    <h1>Simple Quiz App</h1>
+    <div id="question"></div>
+    <div id="answers"></div>
+    <button onclick="nextQuestion()">Next Question</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "What is the capital of France?",
+        answers: ["Berlin", "Madrid", "Paris", "Rome"],
+        correctAnswer: "Paris"
+      },
+      {
+        question: "Which planet is known as the Red Planet?",
+        answers: ["Venus", "Mars", "Jupiter", "Saturn"],
+        correctAnswer: "Mars"
+      },
+      {
+        question: "What is the largest mammal in the world?",
+        answers: ["Elephant", "Blue Whale", "Giraffe", "Hippopotamus"],
+        correctAnswer: "Blue Whale"
+      }
+    ];
+
+    let currentQuestionIndex = 0;
+    const questionElement = document.getElementById('question');
+    const answersElement = document.getElementById('answers');
+    const resultElement = document.getElementById('result');
+
+    function displayQuestion() {
+      const currentQuestion = quizData[currentQuestionIndex];
+      questionElement.textContent = currentQuestion.question;
+
+      answersElement.innerHTML = "";
+      currentQuestion.answers.forEach(answer => {
+        const answerBtn = document.createElement('button');
+        answerBtn.textContent = answer;
+        answerBtn.classList.add('answerBtn');
+        answerBtn.onclick = () => checkAnswer(answer);
+        answersElement.appendChild(answerBtn);
+      });
+    }
+
+    function checkAnswer(selectedAnswer) {
+      const currentQuestion = quizData[currentQuestionIndex];
+
+      if (selectedAnswer === currentQuestion.correctAnswer) {
+        resultElement.textContent = "Correct!";
+      } else {
+        resultElement.textContent = "Wrong! The correct answer is: " + currentQuestion.correctAnswer;
+      }
+    }
+
+    function nextQuestion() {
+      resultElement.textContent = "";
+
+      if (currentQuestionIndex < quizData.length - 1) {
+        currentQuestionIndex++;
+        displayQuestion();
+      } else {
+        questionElement.textContent = "Quiz completed!";
+        answersElement.innerHTML = "";
+      }
+    }
+
+    // Initial display
+    displayQuestion();
+  </script>
+
+</body>
+</html>
